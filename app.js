@@ -11,13 +11,11 @@ $(document).ready(function () {
 
     let sentenceIndex = 0;
     let letterIndex = 0;
-    // let keyCount = 0;
-    // let $yellowBlock = $('#yellow-block');
-    // let $feedback = $('#feedback');
     let currentSentence = sentences[sentenceIndex];
     let currentLetter = currentSentence[letterIndex];
     $('#target-letter').text(currentLetter);
     $('#sentence').append(currentSentence);
+    let mistakeCount = 0;
 
     //hide upper case keyboard on load
     $('#keyboard-upper-container').hide();
@@ -43,7 +41,6 @@ $(document).ready(function () {
     //keypress function for all the things (where the magic happens)
     $(document).keypress(function (e) {
         $('#' + e.which).addClass('highlight');
-        console.log(currentSentence);
         if (currentSentence.charCodeAt(letterIndex) === e.which) {
             $('#feedback').append('<span class="glyphicon glyphicon-ok"></span>');
             letterIndex++;
@@ -53,23 +50,30 @@ $(document).ready(function () {
 
             if(letterIndex === currentSentence.length) {
                 letterIndex = 0;
-                sentenceIndex++;
-                $('#feedback').empty();
-                $('#sentence').empty();
-                currentSentence = sentences[sentenceIndex];
-                console.log(currentSentence);
-                $('#sentence').append(currentSentence);
-                $('target-letter').empty();
-                currentLetter = currentSentence[letterIndex];
-                $('#target-letter').text(currentLetter);
+                if (sentenceIndex != 4) {
+                    sentenceIndex++;
+                    $('#feedback').empty();
+                    $('#sentence').empty();
+                    currentSentence = sentences[sentenceIndex];
+                    $('#sentence').append(currentSentence);
+                    $('target-letter').empty();
+                    currentLetter = currentSentence[letterIndex];
+                    $('#target-letter').text(currentLetter);
+                    $('#yellow-block').css('left', '18px');
+
+                    if (letterIndex === currentSentence.length) {
+                        alert('game over');
+                    }
+                } else if (sentenceIndex < sentences.length) {
+                    alert("You made " + mistakeCount + " typos");
+                }
+                
                
-                
-
-
-                
             };
         } else {
             $('#feedback').append('<span class="glyphicon glyphicon-remove"></span>');
+            mistakeCount++;
+            
 
 
         }
