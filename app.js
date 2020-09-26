@@ -6,7 +6,7 @@ $(document).ready(function () {
         'Too ato too nOt enot one totA not anot tOO aNot ', //11 words, 48 characters
         'oat itain oat tain nate eate tea anne inant nean ', //10 words, 49 characters 
         'itant eate anot eat nato inate eat anot tain eat ', //10 words, 49 characters
-        'nee ene ate ite tent tiet ent ine ene ete ene ate ' //12 words, 50 characters
+        'nee ene ate ite tent tiet ent ine ene ete ene ate' //12 words, 59 characters
     ]; //54 words total
 
     let sentenceIndex = 0;
@@ -47,7 +47,7 @@ $(document).ready(function () {
         $('#' + e.which).addClass('highlight');
         if (keyTimer < 1) {
             timeStart = e.timeStamp;
-            ketTimer++;
+            keyTimer++;
         }
 
         if (currentSentence.charCodeAt(letterIndex) === e.which) {
@@ -71,10 +71,17 @@ $(document).ready(function () {
                     $('#yellow-block').css('left', '18px');
 
                 } else if (sentenceIndex < sentences.length) {
+                    timeFinish = e.timeStamp;
+                    let timeDifference = timeFinish - timeStart;
+                    let seconds = timeDifference / 1000;
+                    let minutes = (seconds) / 60;
+                    let wordsPerMinute = Math.round(((wordCount / minutes) - 2) * mistakeCount);
+                    console.log("you had " + wordsPerMinute + " words per minute");
                     $('#feedback').empty();
                     $('#sentence').empty();
+                    $('#yellow-block').hide();
                     $('#target-letter').empty();
-                    $('#target-letter').append("Game Over!");
+                    $('#sentence').append("Game Over! You got " + wordsPerMinute + " words per minute!").css('text-align', 'center');
                 }
                 
                
