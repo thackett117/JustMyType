@@ -53,7 +53,7 @@ $(document).ready(function () {
         if (currentSentence.charCodeAt(letterIndex) === e.which) {
             $('#feedback').append('<span class="glyphicon glyphicon-ok"></span>');
             letterIndex++;
-            $('#yellow-block').css('left', '+=18px');
+            $('#yellow-block').css('left', '+=17px');
             currentLetter = currentSentence[letterIndex];
             $('#target-letter').text(currentLetter);
 
@@ -68,7 +68,7 @@ $(document).ready(function () {
                     $('target-letter').empty();
                     currentLetter = currentSentence[letterIndex];
                     $('#target-letter').text(currentLetter);
-                    $('#yellow-block').css('left', '18px');
+                    $('#yellow-block').css('left', '150px');
 
                 } else if (sentenceIndex < sentences.length) {
                     timeFinish = e.timeStamp;
@@ -82,6 +82,10 @@ $(document).ready(function () {
                     $('#yellow-block').hide();
                     $('#target-letter').empty();
                     $('#sentence').append("Game Over! You got " + wordsPerMinute + " words per minute!").css('text-align', 'center');
+                    $('#target-letter').append('<button id="reset">Wanna Play Again?</button');
+                    $('#reset').on('click', function() {
+                        location.reload();
+                    })
                 }
                 
                
