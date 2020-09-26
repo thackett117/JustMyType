@@ -2,12 +2,12 @@
 $(document).ready(function () {
     //variables and arrays
     let sentences = [
-        'ten ate neite ate nee enet ite ate inet ent eate',
-        'Too ato too nOt enot one totA not anot tOO aNot',
-        'oat itain oat tain nate eate tea anne inant nean',
-        'itant eate anot eat nato inate eat anot tain eat',
-        'nee ene ate ite tent tiet ent ine ene ete ene ate'
-    ];
+        'ten ate neite ate nee enet ite ate inet ent eate ', //11 words, 49 characters (including spaces)
+        'Too ato too nOt enot one totA not anot tOO aNot ', //11 words, 48 characters
+        'oat itain oat tain nate eate tea anne inant nean ', //10 words, 49 characters 
+        'itant eate anot eat nato inate eat anot tain eat ', //10 words, 49 characters
+        'nee ene ate ite tent tiet ent ine ene ete ene ate ' //12 words, 50 characters
+    ]; //54 words total
 
     let sentenceIndex = 0;
     let letterIndex = 0;
@@ -16,6 +16,10 @@ $(document).ready(function () {
     $('#target-letter').text(currentLetter);
     $('#sentence').append(currentSentence);
     let mistakeCount = 0;
+    let wordCount = 54;
+    let keyTimer = 0;
+    let timeStart = 0;
+    let timeFinish = 0;
 
     //hide upper case keyboard on load
     $('#keyboard-upper-container').hide();
@@ -41,6 +45,11 @@ $(document).ready(function () {
     //keypress function for all the things (where the magic happens)
     $(document).keypress(function (e) {
         $('#' + e.which).addClass('highlight');
+        if (keyTimer < 1) {
+            timeStart = e.timeStamp;
+            ketTimer++;
+        }
+
         if (currentSentence.charCodeAt(letterIndex) === e.which) {
             $('#feedback').append('<span class="glyphicon glyphicon-ok"></span>');
             letterIndex++;
@@ -61,11 +70,11 @@ $(document).ready(function () {
                     $('#target-letter').text(currentLetter);
                     $('#yellow-block').css('left', '18px');
 
-                    if (letterIndex === currentSentence.length) {
-                        alert('game over');
-                    }
                 } else if (sentenceIndex < sentences.length) {
-                    alert("You made " + mistakeCount + " typos");
+                    $('#feedback').empty();
+                    $('#sentence').empty();
+                    $('#target-letter').empty();
+                    $('#target-letter').append("Game Over!");
                 }
                 
                
