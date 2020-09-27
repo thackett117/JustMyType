@@ -52,7 +52,7 @@ $(document).ready(function () {
         if (currentSentence.charCodeAt(letterIndex) === e.which) {
             $('#feedback').append('<span class="glyphicon glyphicon-ok"></span>');
             letterIndex++;
-            $('#yellow-block').css('left', '+=17px');
+            $('#yellow-block').animate({ left: '+=17px'}, {duration: 100, easing: 'linear'});
             currentLetter = currentSentence[letterIndex];
             $('#target-letter').text(currentLetter);
 
@@ -67,7 +67,7 @@ $(document).ready(function () {
                     $('target-letter').empty();
                     currentLetter = currentSentence[letterIndex];
                     $('#target-letter').text(currentLetter);
-                    $('#yellow-block').css('left', '150px');
+                    $('#yellow-block').animate({left: '150px'}, {duration: 100, easing: 'linear'});
 
                 } else if (sentenceIndex < sentences.length) {
                     timeFinish = e.timeStamp;
