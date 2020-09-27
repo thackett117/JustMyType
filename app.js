@@ -33,7 +33,7 @@ $(document).ready(function () {
         }
     });
     $(document).keyup(function (e) {
-        $('.highlight').removeClass('highlight');
+        $('.highlight').removeClass('highlight'); //un-highlights keys when released
         if (e.which === 16) {
             $('#keyboard-upper-container').hide();
             $('#keyboard-lower-container').show();
@@ -44,52 +44,57 @@ $(document).ready(function () {
 
     //keypress function for all the things (where the magic happens)
     $(document).keypress(function (e) {
-        $('#' + e.which).addClass('highlight');
+        $('#' + e.which).addClass('highlight'); //highlights keys on press
         if (keyTimer < 1) {
-            timeStart = e.timeStamp;
+            timeStart = e.timeStamp;  //takes a timestamp when first key is pressed
             keyTimer++;
         }
-        if (currentSentence.charCodeAt(letterIndex) === e.which) {
-            $('#feedback').append('<span class="glyphicon glyphicon-ok"></span>');
-            letterIndex++;
-            $('#yellow-block').animate({ left: '+=17px'}, {duration: 100, easing: 'linear'});
-            currentLetter = currentSentence[letterIndex];
-            $('#target-letter').text(currentLetter);
+        if (currentSentence.charCodeAt(letterIndex) === e.which) {   //if the key that is pressed is correct
+            $('#feedback').append('<span class="glyphicon glyphicon-ok"></span>');   //add green check mark
+            letterIndex++; //increases letter count
+            $('#yellow-block').animate({ left: '+=17.3px' }, { duration: 100, easing: 'linear' }); //moves highlight to next letter
+            currentLetter = currentSentence[letterIndex]; //updates what the current letter should be
+            $('#target-letter').text(currentLetter); //appends new current letter 
 
-            if (letterIndex === currentSentence.length) {
-                letterIndex = 0;
-                if (sentenceIndex != 4) {
-                    sentenceIndex++;
-                    $('#feedback').empty();
-                    $('#sentence').empty();
-                    currentSentence = sentences[sentenceIndex];
-                    $('#sentence').append(currentSentence);
-                    $('target-letter').empty();
-                    currentLetter = currentSentence[letterIndex];
-                    $('#target-letter').text(currentLetter);
-                    $('#yellow-block').animate({left: '150px'}, {duration: 100, easing: 'linear'});
+            if (letterIndex === currentSentence.length) {  //if you are at the end of the sentence
+                letterIndex = 0; //reset letter count
+                if (sentenceIndex != 4) { //if you are not on the last sentence
+                    sentenceIndex++; //increase sentence count
+                    $('#feedback').empty(); //clear the checks and x's
+                    $('#sentence').empty(); //clear old sentence
+                    currentSentence = sentences[sentenceIndex]; //update what the new sentence is
+                    $('#sentence').append(currentSentence); //append new sentence
+                    $('target-letter').empty(); //clear target letter
+                    currentLetter = currentSentence[letterIndex]; //update what the new target letter is
+                    $('#target-letter').text(currentLetter); //append new target letter
+                    $('#yellow-block').animate({ left: '25px' }, { duration: 100, easing: 'linear' }); //resets highlight to beginning of sentence
 
-                } else if (sentenceIndex < sentences.length) {
-                    timeFinish = e.timeStamp;
-                    let timeDifference = timeFinish - timeStart;
+                } else if (sentenceIndex < sentences.length) { //if you are at the end of the last sentence
+                    timeFinish = e.timeStamp; //take time stamp of last keypress
+                    let timeDifference = timeFinish - timeStart; //finds out the total time by taking the difference of the time stamps
                     let seconds = timeDifference / 1000;
                     let minutes = (seconds) / 60;
-                    let wordsPerMinute = Math.round(((wordCount / minutes) - 2) * mistakeCount);
+                    let wordsPerMinute = Math.round(((wordCount / minutes) - 2) * mistakeCount); //math to find words per minute
                     console.log("you had " + wordsPerMinute + " words per minute");
-                    $('#feedback').empty();
-                    $('#sentence').empty();
-                    $('#yellow-block').hide();
-                    $('#target-letter').empty();
-                    $('#sentence').append("Game Over! You got " + wordsPerMinute + " words per minute!").css('text-align', 'center');
-                    $('#target-letter').append('<button id="reset">Wanna Play Again?</button');
-                    $('#reset').on('click', function () {
+                    $('#feedback').empty(); //clear checks and x's
+                    $('#feedback').append('<div>' + "Great Job!" + '</div>').css({ //display a great job message
+                        "margin-top": "100px",
+                        "font-size": "50px"
+                    });
+                    $('#sentence').empty(); //clear the sentences
+                    $('#yellow-block').hide(); //hide the highlight
+                    $('.key').hide(); //hide the keyboard
+                    $('#target-letter').empty(); //clears the target letter
+                    $('#sentence').append('Game Over! You got ' + '<span id="wpm">' + wordsPerMinute + '</span>' + ' words per minute!').css('text-align', 'center'); //displays message and results
+                    $('#target-letter').append('<button id="reset">Play Again?</button'); //creates reset button
+                    $('#reset').on('click', function () { //reset button reloads the page
                         location.reload();
                     })
                 }
             };
-        } else {
-            $('#feedback').append('<span class="glyphicon glyphicon-remove"></span>');
-            mistakeCount++;
+        } else { //if the key that is pressed is incorrect
+            $('#feedback').append('<span class="glyphicon glyphicon-remove"></span>'); //place a red 'x'
+            mistakeCount++; //increase mistake count
         }
     });
 })
