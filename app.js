@@ -41,7 +41,6 @@ $(document).ready(function () {
     });
 
 
-
     //keypress function for all the things (where the magic happens)
     $(document).keypress(function (e) {
         $('#' + e.which).addClass('highlight'); //highlights keys on press
@@ -82,7 +81,7 @@ $(document).ready(function () {
                     $('#yellow-block').hide(); //hide the highlight
                     $('.key').hide(); //hide the keyboard
                     $('#sentence').append('Game Over! You got ' + '<span id="wpm">' + wordsPerMinute + '</span>' + ' words per minute!').css('text-align', 'center'); //displays message and results
-                    $('#target-letter').append('<button id="reset">Play Again?</button'); //creates reset button
+                    $('#target-letter').append('<button id="reset">Play Again?</button>'); //creates reset button
                     $('#reset').on('click', function () { //reset button reloads the page
                         location.reload();
                     })
@@ -95,7 +94,7 @@ $(document).ready(function () {
     });
 })
 
-function clearBoard(){
+function clearBoard() {
     $('#sentence').empty();
     $('#target-letter').empty();
     $('#feedback').empty();
