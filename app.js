@@ -71,7 +71,7 @@ $(document).ready(function () {
                     let timeDifference = timeFinish - timeStart; //finds out the total time by taking the difference of the time stamps
                     let seconds = timeDifference / 1000;
                     let minutes = (seconds) / 60;
-                    let wordsPerMinute = Math.round(((wordCount / minutes) - 2) * mistakeCount); //math to find words per minute
+                    let wordsPerMinute = Math.round((wordCount / minutes) - (2 * mistakeCount)); //math to find words per minute
                     console.log("you had " + wordsPerMinute + " words per minute");
                     clearBoard();
                     $('#feedback').append('<div>' + "Great Job!" + '</div>').css({ //display a great job message
