@@ -6,7 +6,7 @@ $(document).ready(function () {
         'Too ato too nOt enot one totA not anot tOO aNot ', //11 words, 48 characters
         'oat itain oat tain nate eate tea anne inant nean ', //10 words, 49 characters 
         'itant eate anot eat nato inate eat anot tain eat ', //10 words, 49 characters
-        'nee ene ate ite tent tiet ent ine ene ete ene ate' //12 words, 59 characters
+        'nee ene ate ite tent tiet ent ine ene ete ene ate' //12 words, 49 characters
     ]; //54 words total
 
     let sentenceIndex = 0;
@@ -60,11 +60,9 @@ $(document).ready(function () {
                 letterIndex = 0; //reset letter count
                 if (sentenceIndex != 4) { //if you are not on the last sentence
                     sentenceIndex++; //increase sentence count
-                    $('#feedback').empty(); //clear the checks and x's
-                    $('#sentence').empty(); //clear old sentence
+                    clearBoard();
                     currentSentence = sentences[sentenceIndex]; //update what the new sentence is
                     $('#sentence').append(currentSentence); //append new sentence
-                    $('target-letter').empty(); //clear target letter
                     currentLetter = currentSentence[letterIndex]; //update what the new target letter is
                     $('#target-letter').text(currentLetter); //append new target letter
                     $('#yellow-block').animate({ left: '25px' }, { duration: 100, easing: 'linear' }); //resets highlight to beginning of sentence
@@ -76,15 +74,13 @@ $(document).ready(function () {
                     let minutes = (seconds) / 60;
                     let wordsPerMinute = Math.round(((wordCount / minutes) - 2) * mistakeCount); //math to find words per minute
                     console.log("you had " + wordsPerMinute + " words per minute");
-                    $('#feedback').empty(); //clear checks and x's
+                    clearBoard();
                     $('#feedback').append('<div>' + "Great Job!" + '</div>').css({ //display a great job message
                         "margin-top": "100px",
                         "font-size": "50px"
                     });
-                    $('#sentence').empty(); //clear the sentences
                     $('#yellow-block').hide(); //hide the highlight
                     $('.key').hide(); //hide the keyboard
-                    $('#target-letter').empty(); //clears the target letter
                     $('#sentence').append('Game Over! You got ' + '<span id="wpm">' + wordsPerMinute + '</span>' + ' words per minute!').css('text-align', 'center'); //displays message and results
                     $('#target-letter').append('<button id="reset">Play Again?</button'); //creates reset button
                     $('#reset').on('click', function () { //reset button reloads the page
@@ -98,3 +94,9 @@ $(document).ready(function () {
         }
     });
 })
+
+function clearBoard(){
+    $('#sentence').empty();
+    $('#target-letter').empty();
+    $('#feedback').empty();
+};
